@@ -1,0 +1,5 @@
+Flask==3.0.3
+Requests==2.32.3
+yt_dlp==2024.10.22
+ffprobe==0.5
+ffmpeg==1.4
