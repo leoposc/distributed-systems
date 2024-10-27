@@ -13,12 +13,13 @@ API_KEY = os.getenv('API_KEY')
 
 @app.route('/search', methods=['GET'])
 def search():
-    query = request.args.get('query')
+    query = request.args.get('keyword')
     api = f'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q={query}&type=video&key={API_KEY}'
 
     # fetch response from the api
     response = requests.get(api)
     # get the first video from the response
+    data = response.json()
     video = data['items'][0]
     video_id = video['id']['videoId']
     video_link = f'https://www.youtube.com/watch?v={video_id}'
