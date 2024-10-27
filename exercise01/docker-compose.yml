@@ -1,14 +1,14 @@
 # version: '3.8'
 
 services:
-  youtube-search-service:
+  youtube-search-playlist-service:
     build:
-      context: ./youtube-search-service
+      context: ./youtube-search-playlist-service
       dockerfile: Dockerfile
     ports:
       - "5001:5000"
     depends_on:
-      - convert-video-service
+      - download-service
 
   youtube-search-video-service:
     build:
@@ -16,9 +16,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5003:5000"
-  convert-video-service:
+  download-service:
     build:
-      context: ./convert-video-service
+      context: ./download-service
       dockerfile: Dockerfile
     ports:
       - "5002:5002"
@@ -31,4 +31,4 @@ services:
     ports:
       - "5004:5000"
     depends_on:
-      - convert-video-service
+      - download-service
