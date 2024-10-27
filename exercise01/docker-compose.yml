@@ -9,6 +9,13 @@ services:
       - "5001:5000"
     depends_on:
       - convert-video-service
+
+  youtube-search-video-service:
+    build:
+      context: ./youtube-search-video-service
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5000"
   convert-video-service:
     build:
       context: ./convert-video-service
@@ -17,3 +24,11 @@ services:
       - "5002:5002"
     volumes:
       - ~/Downloads:/app/downloads
+  music-player:
+    build:
+      context: ./music-player
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5000"
+    depends_on:
+      - convert-video-service
