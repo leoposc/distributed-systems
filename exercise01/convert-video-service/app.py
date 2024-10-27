@@ -8,6 +8,7 @@ app = Flask(__name__)
 def convert():
     data = request.json
     video_url = data['url']
+
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -15,15 +16,13 @@ def convert():
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'outtmpl': '/app/downloads/%(title)s.%(ext)s'  # Save the file in /app/downloads
+        'outtmpl': './downloads/%(title)s.%(ext)s',
     }
     with YoutubeDL(ydl_opts) as ydl:
-        info_dict = ydl.extract_info(video_url)
-        audio_file = ydl.prepare_filename(info_dict).replace('.webm', '.mp3').replace('.mp4', '.mp3')
+        ydl.download(video_url)
 
     return jsonify({
-        'message': 'Video converted to mp3',
-        'file_path': audio_file
+        'message': 'download finished'
     })
 
 if __name__ == '__main__':
