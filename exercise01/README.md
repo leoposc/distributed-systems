@@ -20,4 +20,8 @@ This service can be used to find videos matching a search query. The respective 
 
 
 ## Tech stack
-We used Python and docker compose to create the application. 
+We used Python and docker compose to create the application.
+
+
+## Contributions
+This application was built by Hendrik Paul Munske, Leopold Schmid and Friedrich Hartmann.
