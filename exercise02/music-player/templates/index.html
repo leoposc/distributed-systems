@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet">
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+     <![endif]-->
+
+    <div id="main" class="container">
+        <!-- <div id="visuals"></div> -->
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search for a song..."
+                onkeypress="if(event.key === 'Enter') searchSongs()">
+        </div>
+        <ul id="audio-list">
+            {% for file in audio_files %}
+            <li onclick="setSong({{ loop.index0 }})">{{ file }}</li>
+            {% endfor %}
+        </ul>
+        <div id="metadetails">
+            <div id="details">
+
+                <div id="detail-text">
+                    <h1 id="song-name">Name Of Song</h1>
+                    <p id="artist-name">Artist name</p>
+                </div>
+            </div>
+            <div id="div-slider">
+                <span id="timeplayed">00:00</span>
+                <div id="greyslider">
+                    <div id="fillbar"></div>
+                    <div draggable="true" id="slider-nob"></div>
+                </div>
+                <span id="duration">04:56</span>
+            </div>
+        </div>
+        <div id="controls">
+            <button id="previous" onclick="prevSong()">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button id="play">
+                <i class="fas fa-solid fa-play"></i>
+            </button>
+            <button id="next" onclick="nextSong()">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+    </div>
+    <script>
+        const songs = {{ audio_files| tojson }};
+    </script>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
+</body>
+
+</html>
+</div>

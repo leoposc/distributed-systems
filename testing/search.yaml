@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-deployment
+  labels: 
+    app: music-player
+  annotations:
+    description: "This deployment is responsible for searching and playing youtube videos"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: music-player
+  template:
+    metadata:
+      labels:
+        app: music-player
+    spec:
+      containers:
+      - name: serach-container
+        image: exercise02-youtube-search-video-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-service
+  labels:
+    app: music-player
+  annotations:
+    description: "This service is responsible for searching and playing youtube videos"
+spec:
+  selector:
+    app: music-player
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
