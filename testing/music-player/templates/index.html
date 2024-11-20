@@ -26,11 +26,13 @@
             <input type="text" id="search-input" placeholder="Search for a song..."
                 onkeypress="if(event.key === 'Enter') searchSongs()">
         </div>
+        <!-- <div class="audio-files"> -->
         <ul id="audio-list">
             {% for file in audio_files %}
             <li onclick="setSong({{ loop.index0 }})">{{ file }}</li>
             {% endfor %}
         </ul>
+        <!-- </div> -->
         <div id="metadetails">
             <div id="details">
 

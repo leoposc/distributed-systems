@@ -26,11 +26,13 @@
             <input type="text" id="search-input" placeholder="Search for a song..."
                 onkeypress="if(event.key === 'Enter') searchSongs()">
         </div>
+        <!-- <div class="audio-files"> -->
         <ul id="audio-list">
             {% for file in audio_files %}
             <li onclick="setSong({{ loop.index0 }})">{{ file }}</li>
             {% endfor %}
         </ul>
+        <!-- </div> -->
         <div id="metadetails">
             <div id="details">
 
@@ -67,4 +69,25 @@
 </body>
 
 </html>
+
+<script>
+    function searchSongs() {
+        const query = document.getElementById('search-input').value;
+        console.log(query);
+        fetch(`/search/${query}`)
+            .catch(error => console.error('Error:', error));
+        // .then(response => response.json())
+        // .then(data => {
+        //     const audioList = document.getElementById('audio-list');
+        //     audioList.innerHTML = '';
+        //     data.forEach((file, index) => {
+        //         const li = document.createElement('li');
+        //         li.textContent = file;
+        //         li.onclick = () => setSong(index);
+        //         audioList.appendChild(li);
+        //     });
+        // })
+
+    }
+</script>
 </div>
