@@ -1,6 +1,6 @@
 
-## Start cluster
-`minikube start`
+## Start cluster with two nodes
+`minikube start -n=2`
 
 ## Build images
 ``` 
@@ -10,7 +10,9 @@ minikube image build -t product-service ./product_service/
 
 minikube image build -t order-service ./order_service/
 
-minikube image build -t gateway-service ./gateway_service/ 
+minikube image build -t gateway-service ./gateway_service/
+
+minikube image build -t scheduler ./scheduler/
 ```
 
 ## Deploy container
@@ -21,52 +23,15 @@ minikube image build -t gateway-service ./gateway_service/
 
 `curl $(minikube service gateway-service --url)/aggregated`
 
-## Get Prometheus/Grafana running
+## Run Python Scheduler
+enter scheduler directory
 
-We assumned prometheus and grafana to be obtained with helm charts.
+```
+kubectl create secret generic sysdig-token --from-file=./token.txt
+kubectl create -f sysdig-account.yaml
+kubectl create -f scheduler.yaml
+kubectl get pods
+```
 
-`kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext`
-
-
-`minikube service prometheus-server-ext`
-The URL needs to be saved to access prometheus.
-
-`kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-ext`
-
-`minikube service grafana-ext`
-The URL needs to be saved to access grafana.
-
-## Generate admin password and login 
-
-`kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo`
-
-In our case, its: gDnu8CLxXwoPm7muyon4tJYoCdGihR5OXFlJQghp
-
-## Configure Grafana
-
-Add the prometheus source
-![alt text](./screenshots/add_source.png)
-
-
-Import a dashboard 
-![alt text](./screenshots/add_dashboard.png)
-
-
-Add the source
-![alt text](./screenshots/add_dashboard_2.png)
-
-Beautiful!
-![alt text](./screenshots/dashboard.png)
-
-
-## Configure alert
-
-The contact point
-![alt text](./screenshots/mail.png)
-
-The rule
-![alt text](./screenshots/alert_rule.png)
-
-
-
-
+## Contributions
+This application was built by Hendrik Paul Munske, Leopold Schmid and Friedrich Hartmann.

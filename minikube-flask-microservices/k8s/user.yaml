@@ -12,6 +12,7 @@ spec:
       labels:
         app: user-service
     spec:
+      schedulerName: sysdigsched
       containers:
       - name: user-service
         image: user-service:latest

@@ -12,6 +12,7 @@ spec:
       labels:
         app: gateway-service
     spec:
+      schedulerName: sysdigsched
       containers:
       - name: gateway-service
         image: gateway-service:latest
