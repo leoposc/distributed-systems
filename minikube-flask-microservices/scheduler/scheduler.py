@@ -22,9 +22,22 @@ def get_request_time(hostname):
     end = 0
     sampling = 60
     metricdata = sdclient.get_data(metrics, start, end, sampling, filter=hostfilter)
-    request_time = float(metricdata[1].get('data')[0].get('d')[0])
-    print(hostname + " (" + sysdig_metric + "): " + str(request_time))
-    return request_time
+    # Validate and process the data
+    if isinstance(metricdata, list) and len(metricdata) > 1:
+        if isinstance(metricdata[1], dict) and 'data' in metricdata[1]:
+            try:
+                request_time = float(metricdata[1]['data'][0]['d'][0])
+                print(f"{hostname} ({sysdig_metric}): {request_time}")
+                return request_time
+            except (IndexError, KeyError, ValueError) as e:
+                print(f"Error processing metric data: {e}")
+        else:
+            print(f"Unexpected structure in metricdata[1]: {metricdata[1]}")
+    else:
+        print(f"Unexpected structure for metricdata: {metricdata}")
+
+    # Default return value if metric data is invalid
+    return float('inf')  # Assign a high value so this node is deprioritized
 
 
 def best_request_time(nodes):
@@ -64,6 +77,7 @@ def main():
         if event['object'].status.phase == "Pending" and event['object'].spec.scheduler_name == scheduler_name:
             try:
                 print("Scheduling " + event['object'].metadata.name)
+                print("Nodes available: " + str(nodes_available()))
                 res = scheduler(event['object'].metadata.name, best_request_time(nodes_available()))
             except client.rest.ApiException as e:
                 print(json.loads(e.body)['message'])

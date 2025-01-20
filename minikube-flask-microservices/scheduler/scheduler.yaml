@@ -16,7 +16,8 @@ spec:
       serviceAccount: sysdig-account
       containers:
       - name: pythonscheduler
-        image: <your_image_name>:latest
+        image: scheduler:latest
+        imagePullPolicy: Never
         volumeMounts:
         - name: sysdigtoken
           mountPath: "/etc/sysdigtoken"

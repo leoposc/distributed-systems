@@ -1,0 +1,12 @@
+# Cheatsheet
+
+## Kubernetes commands
+
+#### restart a pod inside kubernetes:
+
+`kubectl delete pod <pod-name>`
+
+or 
+
+`kubectk delete pods`
+
